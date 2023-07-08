@@ -15,12 +15,11 @@ class PlayersController < Sinatra::Base
     twitch_api = TwtichAPIService.new
     lives = twitch_api.get_streams_by_game('489401')
     # TODO: Add event filter here.
+    # TODO: Store all players
 
     cache_controll.write_cache(lives)
 
-    content_type = 'application/json'
-
-    render_many(lives.to_json).to_json
+    render_many(lives).to_json
   end
 
   def render_many(json)

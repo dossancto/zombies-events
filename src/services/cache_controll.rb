@@ -8,7 +8,7 @@ class CacheControll
   CACHE_DIRECTORY = File.join(Dir.home, '.cache/zombies_round')
   CACHE_FILE_LOCATION = File.join(CACHE_DIRECTORY, 'players.json')
 
-  MAX_ALIVE = 10 * 60 * 1000 # 10 minutes
+  MAX_ALIVE = 10 * 60 # 300 secounds, 10 minutes
 
   def cache_valid?
     return false unless File.exist? CACHE_FILE_LOCATION
