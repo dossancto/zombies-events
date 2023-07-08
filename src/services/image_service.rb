@@ -17,4 +17,20 @@ module ImageService
 
     puts "image updated #{img_path}"
   end
+
+  def self.crop_bo3_round(img_name)
+    img_path = ScreenShotService.image_path(img_name)
+
+    image = MiniMagick::Image.open(img_path)
+    image.crop('130x300+0+330')
+
+    round_dir = "#{ScreenShotService.get_shot_path}/round"
+    Dir.mkdir(round_dir) unless File.directory?(round_dir)
+
+    new_img_path = "#{round_dir}/#{img_name}.png"
+
+    image.write(new_img_path)
+
+    puts "round cropped updated #{new_img_path}"
+  end
 end

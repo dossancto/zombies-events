@@ -11,6 +11,7 @@ def start
   lives.each do |live|
     screenshot.take_screen_shot_from(live, 10)
     ImageService.crop_twitch_player(live.user_login)
+    ImageService.crop_bo3_round(live.user_login)
   end
 end
 

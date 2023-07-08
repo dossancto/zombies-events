@@ -16,6 +16,10 @@ class ScreenShotService
     @driver = Selenium::WebDriver.for(:chrome, options:)
   end
 
+  def self.get_shot_path
+    SHOT_PATH
+  end
+
   def take_screen_shot_from(live, delay = 5)
     url = live.livestream_url
     puts url
