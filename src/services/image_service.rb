@@ -22,7 +22,7 @@ module ImageService
     img_path = ScreenShotService.image_path(img_name)
 
     image = MiniMagick::Image.open(img_path)
-    image.crop('130x300+0+330')
+    image.crop('130x300+0+400')
 
     round_dir = "#{ScreenShotService.get_shot_path}/round"
     Dir.mkdir(round_dir) unless File.directory?(round_dir)
