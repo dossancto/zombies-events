@@ -16,7 +16,7 @@ BASE_TWITCH_URL = 'https://api.twitch.tv/helix'
 class TwtichAPIService
   attr_reader :access_token
 
-  @@access_token = ''
+  @@access_token = 'joedyhhmfis02j2tmt4srlqer9wnsj'
 
   def initialize
     return unless @@access_token.empty?
