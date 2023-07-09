@@ -4,6 +4,7 @@ require 'net/http'
 require 'dotenv'
 require 'json'
 require_relative '../models/livestream_model'
+require_relative '../models/twitch_video_model'
 
 Dotenv.load
 
@@ -26,26 +27,29 @@ class TwtichAPIService
 
   # TODO: Pagination support.
   def get_streams_by_game(game_id, lang = 'pt')
-    url = URI.parse("#{BASE_TWITCH_URL}/streams")
+    url = "#{BASE_TWITCH_URL}/streams"
     params = URI.encode_www_form('first' => 100, 'game_id' => game_id.to_s, 'language' => lang)
-    url.query = params
 
-    headers = {
-      'Authorization' => "Bearer #{@@access_token}",
-      'Client-Id' => CLIENT_ID
-    }
-
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = (url.scheme == 'https')
-
-    request = Net::HTTP::Get.new(url.request_uri, headers)
-    response = http.request(request)
+    response = make_general_request(url, params)
     json_body = JSON.parse(response.body)
 
     streams = json_body['data']
 
     streams.map do |stream|
       LivestreamModel.new(stream)
+    end
+  end
+
+  # TODO: Implement pagination
+  def get_vods(game_id, lang = 'pt', count = 100)
+    url = "#{BASE_TWITCH_URL}/videos"
+    params = URI.encode_www_form('language' => lang, 'game_id' => game_id.to_s, 'period' => 'month', 'first' => count)
+
+    response = make_general_request(url, params)
+    vods = JSON.parse(response.body)['data']
+
+    vods.map do |vod|
+      TwitchVideoModel.new(vod)
     end
   end
 
@@ -71,5 +75,21 @@ class TwtichAPIService
     json_body = JSON.parse(response.body)
     @@access_token = json_body['access_token']
     puts "NEW TOKEN GENERATED #{@@access_token}"
+  end
+
+  def make_general_request(url, query)
+    url = URI.parse(url)
+    url.query = query
+
+    headers = {
+      'Authorization' => "Bearer #{@@access_token}",
+      'Client-Id' => CLIENT_ID
+    }
+
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = (url.scheme == 'https')
+
+    request = Net::HTTP::Get.new(url.request_uri, headers)
+    http.request(request)
   end
 end

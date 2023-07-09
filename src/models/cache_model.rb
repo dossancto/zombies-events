@@ -2,16 +2,16 @@
 
 ## CacheModel
 class CacheModel
-  attr_reader :livestreams, :timestamp
+  attr_reader :content, :timestamp
 
-  def initialize(livestreams)
-    @livestreams = livestreams
+  def initialize(content)
+    @content = content
     @timestamp = Time.now
   end
 
   def as_json(_options = {})
     {
-      livestreams: @livestreams,
+      content: @content,
       timestamp: @timestamp.to_i
     }
   end

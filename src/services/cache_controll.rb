@@ -5,13 +5,25 @@ require_relative '../models/cache_model'
 
 ## CacheControll
 class CacheControll
-  CACHE_DIRECTORY = File.join(Dir.home, '.cache/zombies_round')
-  CACHE_FILE_LOCATION = File.join(CACHE_DIRECTORY, 'players.json')
+  attr_reader :file_name, :ext
+  attr_accessor :max_live
 
-  MAX_ALIVE = 10 * 60 # 300 secounds, 10 minutes
+  CACHE_DIRECTORY = File.join(Dir.home, '.cache/zombies_round')
+
+  def initialize(file_name, ext = 'json')
+    @file_name = file_name
+    @ext = ext
+    @file_path = "#{CACHE_DIRECTORY}/#{file_name}.#{ext}"
+    @max_alive = 10 * 60 # 300 secounds, 10 minutes  end
+  end
+
+  def set_max_alive(max_alive = 600)
+    @max_alive = max_alive
+    self
+  end
 
   def cache_valid?
-    return false unless File.exist? CACHE_FILE_LOCATION
+    return false unless File.exist? @file_path
 
     cache_yet_valid?
   end
@@ -24,37 +36,21 @@ class CacheControll
     current_timestamp = Time.now.to_i
     time_difference = current_timestamp - given_timestamp
 
-    time_difference < MAX_ALIVE
+    time_difference < @max_alive
   end
 
-  def write_cache(livestreams = [LivestreamModel])
-    setup_config_file
-
-    cache_content = CacheModel.new(livestreams)
-
-    File.open(CACHE_FILE_LOCATION, 'w') do |file|
-      content = cache_content.to_json
+  def write_cache(content)
+    File.open(@file_path, 'w') do |file|
       file.puts content
-      puts 'livestreams cache updated'
+      puts "[cache] #{@file_name} updated."
     end
   end
-
-  def read_livestreams
-    cache = JSON.parse(read_cache)
-    json_livestreams = cache['livestreams']
-
-    json_livestreams.map do |json_live|
-      LivestreamModel.new json_live
-    end
-  end
-
-  private
 
   def setup_config_file
     Dir.mkdir(CACHE_DIRECTORY) unless Dir.exist?(CACHE_DIRECTORY)
   end
 
   def read_cache
-    File.read(CACHE_FILE_LOCATION)
+    File.read(@file_path)
   end
 end

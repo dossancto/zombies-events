@@ -52,12 +52,4 @@ class LivestreamModel
   def to_json(*options)
     as_json(*options).to_json(*options)
   end
-
-  def self.from_hash(hash)
-    instance = LivestreamModel.new
-    hash.each do |key, value|
-      instance.send("#{key}=", value) if instance.respond_to?("#{key}=")
-    end
-    instance
-  end
 end

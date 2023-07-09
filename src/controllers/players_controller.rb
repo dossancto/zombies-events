@@ -3,28 +3,37 @@
 require 'sinatra'
 require 'json'
 require_relative '../services/twtich_api_service'
-require_relative '../services/cache_controll'
+require_relative '../services/cache/online_streamers_cache'
+require_relative '../services/cache/videos_cache'
+require_relative '../utils/render_utils'
 
 # PodcastsController
 class PlayersController < Sinatra::Base
   get '/aethercup/players/online' do
-    cache_controll = CacheControll.new
+    cache_controll = OnlineStreamersCache.new
 
-    return render_many(cache_controll.read_livestreams).to_json if cache_controll.cache_valid?
+    return RenderUtils.render(cache_controll.read_livestreams) if cache_controll.cache_valid?
 
     twitch_api = TwtichAPIService.new
     lives = twitch_api.get_streams_by_game('489401')
     # TODO: Add event filter here.
     # TODO: Store all players
 
-    cache_controll.write_cache(lives)
+    cache_controll.save_livestreamres(lives)
 
-    render_many(lives).to_json
+    RenderUtils.render(lives)
   end
 
-  def render_many(json)
-    {
-      data: json
-    }
+  get '/aethercup/players/videos' do
+    cache_controll = VideosCache.new
+    return RenderUtils.render(cache_controll.read_videos) if cache_controll.cache_valid?
+
+    twitch_api = TwtichAPIService.new
+    vods = twitch_api.get_vods('489401')
+    # TODO: Store vods
+
+    cache_controll.save_videos(vods)
+
+    RenderUtils.render(vods)
   end
 end
