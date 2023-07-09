@@ -15,7 +15,12 @@ class PlayersController < Sinatra::Base
     return RenderUtils.render(cache_controll.read_livestreams) if cache_controll.cache_valid?
 
     twitch_api = TwtichAPIService.new
-    lives = twitch_api.get_streams_by_game('489401')
+
+    bo1_lives = twitch_api.get_streams_by_game('23894', 'en')
+    bo3_lives = twitch_api.get_streams_by_game('489401')
+
+    puts "Bo1 lives: #{bo1_lives}"
+    lives = bo1_lives + bo3_lives
     # TODO: Add event filter here.
     # TODO: Store all players
 
