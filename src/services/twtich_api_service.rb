@@ -84,7 +84,7 @@ class TwtichAPIService
     return get_all_vods_since(game_id, date, lang, count + 15) if has_more
 
     vods.filter do |vod|
-      vod.published_at > date
+      vod.published_at > date && vod.duration > 60 * 20
     end
   end
 
