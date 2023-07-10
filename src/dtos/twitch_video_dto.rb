@@ -56,9 +56,6 @@ class TwitchVideoDTO
   end
 
   def as_model
-    # :title, :description, :view_count, :published_at, :url, :duration, :language, :user_login,
-    #        :user_name
-
     {
       user_login: @user_login,
       user_name: @user_name,

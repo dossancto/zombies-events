@@ -19,7 +19,7 @@ class PlayersController < Sinatra::Base
   get '/aethercup/players/online' do
     cache_controll = OnlineStreamersCache.new
 
-    return RenderUtils.render(cache_controll.read_livestreams) if cache_controll.cache_valid?
+    return RenderUtils.render_many(cache_controll.read_livestreams) if cache_controll.cache_valid?
 
     twitch_api = TwtichAPIService.new
 
@@ -33,12 +33,12 @@ class PlayersController < Sinatra::Base
 
     cache_controll.save_livestreamres(lives)
 
-    RenderUtils.render(lives)
+    RenderUtils.render_many(lives)
   end
 
-  get '/aethercup/players/videos' do
+  get '/aethercup/players/new-videos' do
     cache_controll = VideosCache.new
-    return RenderUtils.render(cache_controll.read_videos) if cache_controll.cache_valid?
+    return RenderUtils.render_many(cache_controll.read_videos) if cache_controll.cache_valid?
 
     twitch_api = TwtichAPIService.new
     latest_vod = TwitchVideosService.latest_video
@@ -52,11 +52,11 @@ class PlayersController < Sinatra::Base
     # TODO: Add filters
     TwitchVideos.insert_all(vods.map(&:as_model)) unless vods.empty?
 
-    RenderUtils.render(vods)
+    RenderUtils.render_many(vods)
   end
 
-  get '/aethercup/players/videos/saved' do
-    @videos = TwitchVideosService.all_videos_ordened
-    @videos.to_json
+  get '/aethercup/players/vods' do
+    vods = TwitchVideosService.all_videos_ordened
+    RenderUtils.render_many(vods)
   end
 end

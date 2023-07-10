@@ -10,8 +10,6 @@ module RenderUtils
     render_one(content)
   end
 
-  private
-
   def self.render_one(json)
     json.to_json
   end
@@ -22,6 +20,4 @@ module RenderUtils
       data: json
     }.to_json
   end
-
-  private_class_method :render_one, :render_many
 end
