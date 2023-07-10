@@ -73,8 +73,7 @@ class TwtichAPIService
     parsed_vods
   end
 
-  def get_all_vods_since(game_id, date, lang = 'pt', count = 5, limit = 1)
-    puts limit
+  def get_all_vods_since(game_id, date, lang = 'pt', count = 5)
     vods = get_vods(game_id, count, lang)
 
     last_vod = vods.last
@@ -82,9 +81,7 @@ class TwtichAPIService
 
     puts has_more
 
-    return [] if limit == 10
-
-    return get_all_vods_since(game_id, date, lang, count + 15, limit + 1) if has_more
+    return get_all_vods_since(game_id, date, lang, count + 15) if has_more
 
     vods.filter do |vod|
       vod.published_at > date
