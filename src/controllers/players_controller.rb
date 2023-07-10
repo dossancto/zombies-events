@@ -40,12 +40,12 @@ class PlayersController < Sinatra::Base
     return RenderUtils.render(cache_controll.read_videos) if cache_controll.cache_valid?
 
     twitch_api = TwtichAPIService.new
-    vods = twitch_api.get_vods('489401')
+    vods = twitch_api.get_vods('489401', 5)
 
     # TODO: Add filters
     # TODO: Store vods
     # TODO: Insert only new vods
-    # TwitchVideos.insert_all(vods.map(&:as_model))
+    TwitchVideos.insert_all(vods.map(&:as_model))
 
     RenderUtils.render(vods)
   end

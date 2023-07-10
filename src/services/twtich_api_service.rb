@@ -40,14 +40,18 @@ class TwtichAPIService
     end
   end
 
-  def get_vods(game_id, lang = 'pt', count = 100, cursor = '')
+  def get_vods(game_id, count = 100, lang = 'pt', cursor = '')
     url = "#{BASE_TWITCH_URL}/videos"
 
-    params = URI.encode_www_form('language' => lang, 'game_id' => game_id.to_s, 'period' => 'month', 'first' => count,
+    fixed_count = count.clamp(0, 100)
+
+    return [] if fixed_count.zero?
+
+    params = URI.encode_www_form('language' => lang, 'game_id' => game_id.to_s, 'period' => 'month', 'first' => fixed_count,
                                  'sort' => 'time', 'after' => cursor)
 
     if cursor.nil? || cursor.empty? || cursor == ''
-      params = URI.encode_www_form('language' => lang, 'game_id' => game_id.to_s, 'period' => 'month', 'first' => count,
+      params = URI.encode_www_form('language' => lang, 'game_id' => game_id.to_s, 'period' => 'month', 'first' => fixed_count,
                                    'sort' => 'time')
     end
 
@@ -61,7 +65,10 @@ class TwtichAPIService
       TwitchVideoDTO.new(vod)
     end
 
-    return parsed_vods + get_vods(game_id, lang, count, new_cursor) if !new_cursor.nil? && new_cursor != ''
+    if !new_cursor.nil? && new_cursor != ''
+      return parsed_vods + get_vods(game_id, count - fixed_count, lang,
+                                    new_cursor)
+    end
 
     parsed_vods
   end
