@@ -40,17 +40,30 @@ class TwtichAPIService
     end
   end
 
-  # TODO: Implement pagination
-  def get_vods(game_id, lang = 'pt', count = 100)
+  def get_vods(game_id, lang = 'pt', count = 100, cursor = '')
     url = "#{BASE_TWITCH_URL}/videos"
-    params = URI.encode_www_form('language' => lang, 'game_id' => game_id.to_s, 'period' => 'month', 'first' => count)
+
+    params = URI.encode_www_form('language' => lang, 'game_id' => game_id.to_s, 'period' => 'month', 'first' => count,
+                                 'sort' => 'time', 'after' => cursor)
+
+    if cursor.nil? || cursor.empty? || cursor == ''
+      params = URI.encode_www_form('language' => lang, 'game_id' => game_id.to_s, 'period' => 'month', 'first' => count,
+                                   'sort' => 'time')
+    end
 
     response = make_general_request(url, params)
-    vods = JSON.parse(response.body)['data']
+    result = JSON.parse(response.body)
+    vods = result['data']
 
-    vods.map do |vod|
+    new_cursor = result['pagination']['cursor']
+
+    parsed_vods = vods.map do |vod|
       TwitchVideoDTO.new(vod)
     end
+
+    return parsed_vods + get_vods(game_id, lang, count, new_cursor) if !new_cursor.nil? && new_cursor != ''
+
+    parsed_vods
   end
 
   private

@@ -7,8 +7,14 @@ require_relative '../services/cache/online_streamers_cache'
 require_relative '../services/cache/videos_cache'
 require_relative '../utils/render_utils'
 
+require_relative '../models/twitch_videos'
+
 # PodcastsController
 class PlayersController < Sinatra::Base
+  before do
+    content_type :json
+  end
+
   get '/aethercup/players/online' do
     cache_controll = OnlineStreamersCache.new
 
@@ -35,10 +41,17 @@ class PlayersController < Sinatra::Base
 
     twitch_api = TwtichAPIService.new
     vods = twitch_api.get_vods('489401')
-    # TODO: Store vods
 
-    cache_controll.save_videos(vods)
+    # TODO: Add filters
+    # TODO: Store vods
+    # TODO: Insert only new vods
+    # TwitchVideos.insert_all(vods.map(&:as_model))
 
     RenderUtils.render(vods)
+  end
+
+  get '/aethercup/players/videos/saved' do
+    @videos = TwitchVideos.all
+    @videos.to_json
   end
 end

@@ -6,9 +6,9 @@ require './src/config/database'
 
 ## App
 class App < Sinatra::Base
-  # before do
-  #   content_type :json
-  # end
+  before do
+    content_type :json
+  end
 
   use PlayersController
 

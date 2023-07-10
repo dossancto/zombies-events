@@ -52,6 +52,23 @@ class TwitchVideoDTO
     }
   end
 
+  def as_model
+    # :title, :description, :view_count, :published_at, :url, :duration, :language, :user_login,
+    #        :user_name
+
+    {
+      user_login: @user_login,
+      user_name: @user_name,
+      title: @title,
+      description: @description,
+      published_at: @published_at,
+      url: @url,
+      view_count: @view_count,
+      language: @language,
+      duration: @duration
+    }
+  end
+
   def to_json(*options)
     as_json(*options).to_json(*options)
   end

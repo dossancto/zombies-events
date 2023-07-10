@@ -18,6 +18,7 @@ module RenderUtils
 
   def self.render_many(json)
     {
+      count: json.length,
       data: json
     }.to_json
   end
