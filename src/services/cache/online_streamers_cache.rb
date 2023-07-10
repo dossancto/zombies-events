@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require_relative '../cache_controll'
-require_relative '../../models/cache_model'
+require_relative '../../dtos/cache_dto'
+require_relative '../../dtos/livestream_dto'
 
 ## OnlineStreamersCache
 class OnlineStreamersCache < CacheControll
@@ -9,8 +10,8 @@ class OnlineStreamersCache < CacheControll
     super('online-players')
   end
 
-  def save_livestreamres(livestreams = [LivestreamModel])
-    cache = CacheModel.new(livestreams)
+  def save_livestreamres(livestreams = [LivestreamDTO])
+    cache = CacheDTO.new(livestreams)
     write_cache(cache.to_json)
   end
 
@@ -19,7 +20,7 @@ class OnlineStreamersCache < CacheControll
     json_livestreams = cache['content']
 
     json_livestreams.map do |json_live|
-      LivestreamModel.new json_live
+      LivestreamDTO.new json_live
     end
   end
 end

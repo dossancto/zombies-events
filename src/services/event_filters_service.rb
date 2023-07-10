@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative '../services/twtich_api_service'
-require_relative '../models/livestream_model'
 
 ## EventFiltersService
 module EventFiltersService

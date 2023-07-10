@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../models/livestream_model'
-require_relative '../models/cache_model'
-
 ## CacheControll
 class CacheControll
   attr_reader :file_name, :ext

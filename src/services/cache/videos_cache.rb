@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require_relative '../cache_controll'
-require_relative '../../models/cache_model'
-require_relative '../../models/twitch_video_model.rb'
+require_relative '../../dtos/cache_dto'
+require_relative '../../dtos/twitch_video_dto'
 
 ## OnlineStreamersCache
 class VideosCache < CacheControll
@@ -10,8 +10,8 @@ class VideosCache < CacheControll
     super('vods')
   end
 
-  def save_videos(vods = [TwitchVideoModel])
-    cache = CacheModel.new(vods)
+  def save_videos(vods = [TwitchVideoDTO])
+    cache = CacheDTO.new(vods)
     write_cache(cache.to_json)
   end
 
@@ -20,7 +20,7 @@ class VideosCache < CacheControll
     json_content = cache['content']
 
     json_content.map do |content|
-      TwitchVideoModel.new content
+      TwitchVideoDTO.new content
     end
   end
 end

@@ -3,8 +3,8 @@
 require 'net/http'
 require 'dotenv'
 require 'json'
-require_relative '../models/livestream_model'
-require_relative '../models/twitch_video_model'
+require_relative '../dtos/livestream_dto'
+require_relative '../dtos/twitch_video_dto'
 
 Dotenv.load
 
@@ -36,7 +36,7 @@ class TwtichAPIService
     streams = json_body['data']
 
     streams.map do |stream|
-      LivestreamModel.new(stream)
+      LivestreamDTO.new(stream)
     end
   end
 
@@ -49,7 +49,7 @@ class TwtichAPIService
     vods = JSON.parse(response.body)['data']
 
     vods.map do |vod|
-      TwitchVideoModel.new(vod)
+      TwitchVideoDTO.new(vod)
     end
   end
 

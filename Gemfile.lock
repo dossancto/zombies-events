@@ -1,18 +1,51 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    activemodel (7.0.6)
+      activesupport (= 7.0.6)
+    activerecord (7.0.6)
+      activemodel (= 7.0.6)
+      activesupport (= 7.0.6)
+    activesupport (7.0.6)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+    concurrent-ruby (1.2.2)
     dotenv (2.8.1)
+    i18n (1.14.1)
+      concurrent-ruby (~> 1.0)
     json (2.6.3)
     mini_magick (4.12.0)
+    minitest (5.18.1)
+    mustermann (3.0.0)
+      ruby2_keywords (~> 0.0.1)
+    pg (1.5.3)
     pkg-config (1.5.2)
+    rack (2.2.7)
+    rack-protection (3.0.6)
+      rack
+    rake (13.0.6)
     rexml (3.2.5)
     rmagick (5.2.0)
       pkg-config (~> 1.4)
+    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     selenium-webdriver (4.10.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sinatra (3.0.6)
+      mustermann (~> 3.0)
+      rack (~> 2.2, >= 2.2.4)
+      rack-protection (= 3.0.6)
+      tilt (~> 2.0)
+    sinatra-activerecord (2.0.26)
+      activerecord (>= 4.1)
+      sinatra (>= 1.0)
+    tilt (2.2.0)
+    tzinfo (2.0.6)
+      concurrent-ruby (~> 1.0)
     websocket (1.2.9)
 
 PLATFORMS
@@ -22,8 +55,12 @@ DEPENDENCIES
   dotenv
   json
   mini_magick
+  pg (~> 1.5)
+  rake (~> 13.0)
   rmagick
   selenium-webdriver
+  sinatra
+  sinatra-activerecord (~> 2.0)
 
 BUNDLED WITH
    2.4.15

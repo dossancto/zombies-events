@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ## CacheModel
-class CacheModel
+class CacheDTO
   attr_reader :content, :timestamp
 
   def initialize(content)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ## LiveStremModel
-class LivestreamModel
+class LivestreamDTO
   TWITCH_CHANNEL_BASE_URL = 'https://www.twitch.tv'
   attr_accessor :id, :user_id, :user_login, :user_name, :game_id, :game_name, :type,
                 :title, :viewer_count, :started_at, :language, :thumbnail_url,

@@ -3,7 +3,7 @@
 require_relative '../utils/convert_time'
 
 ## TwitchVideoModel
-class TwitchVideoModel
+class TwitchVideoDTO
   attr_accessor :id, :stream_id, :user_id, :user_login, :user_name, :title, :description, :created_at,
                 :published_at, :url, :thumbnail_url, :viewable, :view_count, :language, :type, :duration,
                 :muted_segments
