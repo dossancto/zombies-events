@@ -73,6 +73,23 @@ class TwtichAPIService
     parsed_vods
   end
 
+  def get_all_vods_since(game_id, date, lang = 'pt', count = 15, limit = 1)
+    vods = get_vods(game_id, count, lang)
+
+    last_vod = vods.last
+    has_more = last_vod.published_at > date
+
+    puts has_more
+
+    return [] if limit == 10
+
+    return vods + get_all_vods_since(game_id, date, lang, count + 15, limit + 1) if has_more
+
+    vods.filter do |vod|
+      vod.published_at > date
+    end
+  end
+
   private
 
   def new_authorization_token

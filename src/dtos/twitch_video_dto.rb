@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../utils/convert_time'
+require 'date'
 
 ## TwitchVideoModel
 class TwitchVideoDTO
@@ -10,6 +11,8 @@ class TwitchVideoDTO
 
   def initialize(json_data)
     duration = get_duration(json_data['duration'])
+    created_at = get_time(json_data['created_at'])
+    updated_at = get_time(json_data['published_at'])
 
     @id = json_data['id']
     @stream_id = json_data['stream_id']
@@ -18,8 +21,8 @@ class TwitchVideoDTO
     @user_name = json_data['user_name']
     @title = json_data['title']
     @description = json_data['description']
-    @created_at = json_data['created_at']
-    @published_at = json_data['published_at']
+    @created_at = created_at
+    @published_at = updated_at
     @url = json_data['url']
     @thumbnail_url = json_data['thumbnail_url']
     @viewable = json_data['viewable']
@@ -74,6 +77,12 @@ class TwitchVideoDTO
   end
 
   private
+
+  def get_time(date)
+    return date unless date.is_a?(String)
+
+    DateTime.parse(date)
+  end
 
   def get_duration(duration)
     return duration if duration.is_a?(Integer)

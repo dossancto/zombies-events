@@ -6,6 +6,7 @@ require_relative '../services/twtich_api_service'
 require_relative '../services/cache/online_streamers_cache'
 require_relative '../services/cache/videos_cache'
 require_relative '../utils/render_utils'
+require_relative '../services/twitch_videos_service'
 
 require_relative '../models/twitch_videos'
 
@@ -40,18 +41,22 @@ class PlayersController < Sinatra::Base
     return RenderUtils.render(cache_controll.read_videos) if cache_controll.cache_valid?
 
     twitch_api = TwtichAPIService.new
-    vods = twitch_api.get_vods('489401', 5)
+    latest_vod = TwitchVideosService.latest_video
+
+    vods = if latest_vod.nil?
+             twitch_api.get_vods('489401', 15)
+           else
+             twitch_api.get_all_vods_since('489401', latest_vod.published_at)
+           end
 
     # TODO: Add filters
-    # TODO: Store vods
-    # TODO: Insert only new vods
-    TwitchVideos.insert_all(vods.map(&:as_model))
+    TwitchVideos.insert_all(vods.map(&:as_model)) unless vods.empty?
 
     RenderUtils.render(vods)
   end
 
   get '/aethercup/players/videos/saved' do
-    @videos = TwitchVideos.all
+    @videos = TwitchVideosService.all_videos_ordened
     @videos.to_json
   end
 end
