@@ -17,27 +17,17 @@ GEM
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     json (2.6.3)
-    mini_magick (4.12.0)
     minitest (5.18.1)
     mongo (2.19.0)
       bson (>= 4.14.1, < 5.0.0)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     pg (1.5.3)
-    pkg-config (1.5.2)
     rack (2.2.7)
     rack-protection (3.0.6)
       rack
     rake (13.0.6)
-    rexml (3.2.5)
-    rmagick (5.2.0)
-      pkg-config (~> 1.4)
     ruby2_keywords (0.0.5)
-    rubyzip (2.3.2)
-    selenium-webdriver (4.10.0)
-      rexml (~> 3.2, >= 3.2.5)
-      rubyzip (>= 1.2.2, < 3.0)
-      websocket (~> 1.0)
     sinatra (3.0.6)
       mustermann (~> 3.0)
       rack (~> 2.2, >= 2.2.4)
@@ -49,7 +39,6 @@ GEM
     tilt (2.2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    websocket (1.2.9)
 
 PLATFORMS
   x86_64-linux
@@ -57,12 +46,9 @@ PLATFORMS
 DEPENDENCIES
   dotenv
   json
-  mini_magick
   mongo (~> 2.19)
   pg (~> 1.5)
   rake (~> 13.0)
-  rmagick
-  selenium-webdriver
   sinatra
   sinatra-activerecord (~> 2.0)
 
