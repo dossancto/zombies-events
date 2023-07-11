@@ -11,3 +11,5 @@ gem "sinatra-activerecord", "~> 2.0"
 gem "rake", "~> 13.0"
 
 gem "mongo", "~> 2.19"
+
+gem "thin", "~> 1.8"
