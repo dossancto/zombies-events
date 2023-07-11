@@ -12,6 +12,11 @@ class App < Sinatra::Base
     content_type :json
   end
 
+  use Rack::Cache,
+      verbose: true,
+      metastore: 'heap:/',
+      entitystore: 'heap:/'
+
   use PlayersController
   use SubmitController
 

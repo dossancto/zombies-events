@@ -13,3 +13,5 @@ gem "rake", "~> 13.0"
 gem "mongo", "~> 2.19"
 
 gem "thin", "~> 1.8"
+
+gem "rack-cache", "~> 1.13"
