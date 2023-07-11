@@ -3,7 +3,8 @@
 require 'sinatra'
 require_relative './src/controllers/players_controller'
 require_relative './src/controllers/submit_controller'
-require './config/postgres_database'
+
+set :database_file, 'config/database.yml'
 
 ## App
 class App < Sinatra::Base
