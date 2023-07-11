@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_10_143406) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_11_010648) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "submit_videos", force: :cascade do |t|
+    t.string "player_name"
+    t.string "discord_user"
+    t.string "instagram"
+    t.string "twitter"
+    t.string "category"
+    t.text "gameplay_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "twitch_videos", force: :cascade do |t|
     t.text "title"

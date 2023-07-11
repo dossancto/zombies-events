@@ -6,7 +6,7 @@ require_relative '../services/twtich_api_service'
 require_relative '../services/cache/online_streamers_cache'
 require_relative '../services/cache/videos_cache'
 require_relative '../utils/render_utils'
-require_relative '../services/twitch_videos_service'
+require_relative '../repositories/twitch_videos_repository'
 
 require_relative '../models/twitch_videos'
 
@@ -41,7 +41,7 @@ class PlayersController < Sinatra::Base
     return RenderUtils.render_many(cache_controll.read_videos) if cache_controll.cache_valid?
 
     twitch_api = TwtichAPIService.new
-    latest_vod = TwitchVideosService.latest_video
+    latest_vod = TwitchVideosRepository.latest_video
 
     vods = if latest_vod.nil?
              twitch_api.get_vods('489401', 15)
@@ -56,7 +56,7 @@ class PlayersController < Sinatra::Base
   end
 
   get '/aethercup/players/vods' do
-    vods = TwitchVideosService.all_videos_ordened
+    vods = TwitchVideosRepository.all_videos_ordened
     RenderUtils.render_many(vods)
   end
 end

@@ -2,8 +2,8 @@
 
 require_relative '../models/twitch_videos'
 
-## TwitchVideosService
-module TwitchVideosService
+## TwitchVideosRepository
+module TwitchVideosRepository
   def self.latest_video
     TwitchVideos.order(published_at: :desc).first
   end

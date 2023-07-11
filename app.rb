@@ -2,6 +2,7 @@
 
 require 'sinatra'
 require_relative './src/controllers/players_controller'
+require_relative './src/controllers/submit_controller'
 require './src/config/database'
 
 ## App
@@ -11,6 +12,7 @@ class App < Sinatra::Base
   end
 
   use PlayersController
+  use SubmitController
 
   get '/' do
     p 'Salve.'
