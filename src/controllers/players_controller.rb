@@ -37,7 +37,6 @@ class PlayersController < Sinatra::Base
 
   get '/aethercup/players/new-videos' do
     cache_controll = VideosCache.new
-    return RenderUtils.render_many(cache_controll.read_videos) if cache_controll.cache_valid?
 
     twitch_api = TwtichAPIService.new
     latest_vod = TwitchVideosRepository.latest_video
@@ -48,14 +47,23 @@ class PlayersController < Sinatra::Base
              twitch_api.get_all_vods_since('489401', latest_vod.published_at)
            end
 
+    return RenderUtils.render_many([]) if vods.empty?
+
     # TODO: Add filters
     TwitchVideos.insert_all(vods.map(&:as_model)) unless vods.empty?
+    cache_controll.reset_cache
 
     RenderUtils.render_many(vods)
   end
 
   get '/aethercup/players/vods' do
+    cache_controll = VideosCache.new
+
+    return RenderUtils.render_many(cache_controll.read_videos) if cache_controll.cache_valid?
+
     vods = TwitchVideosRepository.all_videos_ordened
+    cache_controll.save_videos(vods)
+
     RenderUtils.render_many(vods)
   end
 end

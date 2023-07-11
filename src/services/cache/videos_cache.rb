@@ -11,6 +11,8 @@ class VideosCache < CacheControll
   end
 
   def save_videos(vods = [TwitchVideoDTO])
+    return if vods.empty?
+
     cache = CacheDTO.new(vods)
     write_cache(cache.to_json)
   end

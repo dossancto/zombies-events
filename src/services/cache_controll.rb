@@ -50,4 +50,9 @@ class CacheControll
   def read_cache
     File.read(@file_path)
   end
+
+  def reset_cache
+    write_cache('')
+    puts 'cache reseted'
+  end
 end
