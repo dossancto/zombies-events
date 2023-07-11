@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+require_relative '../dtos/cache_dto'
+require 'dotenv'
+
+Dotenv.load
+
 ## CacheControll
 class CacheControll
   attr_reader :file_name, :ext
@@ -20,6 +25,7 @@ class CacheControll
   end
 
   def cache_valid?
+    return false if ENV['DISABLE_CACHE'] == 'true'
     return false unless File.exist? @file_path
 
     cache_yet_valid?
@@ -37,6 +43,8 @@ class CacheControll
   end
 
   def write_cache(content)
+    return if ENV['DISABLE_CACHE'] == 'true'
+
     File.open(@file_path, 'w') do |file|
       file.puts content
       puts "[cache] #{@file_name} updated."
@@ -52,7 +60,7 @@ class CacheControll
   end
 
   def reset_cache
-    write_cache('')
-    puts 'cache reseted'
+    File.delete(@file_path)
+    puts "[cache] #{@file_name} reseted."
   end
 end

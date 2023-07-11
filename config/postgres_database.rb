@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sinatra'
 require 'sinatra/activerecord'
 require 'dotenv'
@@ -11,7 +13,7 @@ configure :development do
 end
 
 configure :production do
-  set :database, { adapter: 'postgresql', encoding: 'unicode', host: ENV['DATABASE_HOST'],
-                   database: ENV['DATABASE_NAME'], pool: 2, username: ENV['DATABASE_USER'],
-                   password: ENV['DATABASE_PASSWORD'] }
+  set :database, { adapter: 'postgresql', encoding: 'unicode', host: ENV['POSTGRES_DATABASE_HOST'],
+                   database: ENV['POSTGRES_DATABASE_NAME'], pool: 2, username: ENV['POSTGRES_DATABASE_USER'],
+                   password: ENV['POSTGRES_DATABASE_PASSWORD'] }
 end

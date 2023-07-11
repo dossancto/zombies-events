@@ -1,5 +1,5 @@
 require 'sinatra'
-require './src/config/database'
+require './config/postgres_database'
 require './app'
 
 run App

@@ -2,11 +2,15 @@
 
 require 'sinatra'
 require 'json'
+
 require_relative '../services/twtich_api_service'
 require_relative '../services/cache/online_streamers_cache'
 require_relative '../services/cache/videos_cache'
+
 require_relative '../utils/render_utils'
+
 require_relative '../repositories/twitch_videos_repository'
+require_relative '../repositories/twitch_streamers_repository'
 
 require_relative '../models/twitch_videos'
 
@@ -28,9 +32,10 @@ class PlayersController < Sinatra::Base
 
     lives = bo1_lives + bo3_lives
     # TODO: Add event filter here.
-    # TODO: Store all players
 
     cache_controll.save_livestreamres(lives)
+
+    puts TwitchStreamersRepository.insert_new_lives(lives)
 
     RenderUtils.render_many(lives)
   end
