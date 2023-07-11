@@ -4,9 +4,6 @@ source 'https://rubygems.org'
 
 gem 'dotenv'
 gem 'json'
-gem 'mini_magick'
-gem 'rmagick'
-gem 'selenium-webdriver'
 gem 'sinatra'
 
 gem "pg", "~> 1.5"

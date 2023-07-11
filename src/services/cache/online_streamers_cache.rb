@@ -8,6 +8,9 @@ require_relative '../../dtos/livestream_dto'
 class OnlineStreamersCache < CacheControll
   def initialize
     super('online-players')
+
+    # Reload every 3 minutes
+    set_max_alive(60 * 3)
   end
 
   def save_livestreamres(livestreams = [LivestreamDTO])
