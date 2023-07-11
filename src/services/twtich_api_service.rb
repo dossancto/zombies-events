@@ -79,8 +79,6 @@ class TwtichAPIService
     last_vod = vods.last
     has_more = last_vod.published_at > date
 
-    puts has_more
-
     return get_all_vods_since(game_id, date, lang, count + 15) if has_more
 
     vods.filter do |vod|
