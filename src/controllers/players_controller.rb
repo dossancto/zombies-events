@@ -26,7 +26,6 @@ class PlayersController < Sinatra::Base
     bo1_lives = twitch_api.get_streams_by_game('23894', 'en')
     bo3_lives = twitch_api.get_streams_by_game('489401')
 
-    puts "Bo1 lives: #{bo1_lives}"
     lives = bo1_lives + bo3_lives
     # TODO: Add event filter here.
     # TODO: Store all players
